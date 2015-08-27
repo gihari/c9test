@@ -1,12 +1,11 @@
 import urllib
 import os
+import sys
 
 class GutClient:
     BASE_URL = "https://www.gutenberg.org/cache/epub/"
-    def __init__(self, repo):
-        print "Initing"
-        self.localRepo = os.path.abspath(repo)
-        #self.getter = urllib.URLOpener()
+    def __init__(self, repo):       
+        self.localRepo = os.path.abspath(repo)        
         
     def downloadBook(self, bookId):        
         bookUrl = GutClient.BASE_URL + bookId + "/pg" + bookId + ".txt"
@@ -17,5 +16,15 @@ class GutClient:
         
 
 if __name__ == '__main__':
-    cl = GutClient(".")
-    cl.downloadBook('45484')
+    if len(sys.argv) > 1:        
+        bId = sys.argv[1]
+    else:        
+        sys.exit("bookid is required")
+            
+    if len(sys.argv) > 2:        
+        repo = sys.argv[2]
+    else:
+        repo = "."
+        
+    cl = GutClient(repo)
+    cl.downloadBook(bId)
